@@ -21,12 +21,12 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- Fonts -->
+  <!-- Fonts: only critical weights -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Alpine.js + Focus plugin -->
+  <!-- Alpine.js -->
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -34,458 +34,462 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0b;
+      --bg: #09090b;
       --surface: #111113;
-      --surface2: #19191d;
-      --surface3: #222228;
+      --surface2: #18181b;
+      --surface3: #222225;
       --border: rgba(255,255,255,0.06);
-      --border-light: rgba(255,255,255,0.1);
+      --border-light: rgba(255,255,255,0.12);
       --gold: #d4af37;
       --gold-light: #f0d060;
-      --gold-dim: rgba(212,175,55,0.15);
-      --gold-glow: rgba(212,175,55,0.25);
-      --text: #e8e6e3;
-      --text-muted: #8a8f98;
-      --text-dim: #5a5f68;
+      --gold-dim: rgba(212,175,55,0.12);
+      --text: #f0ede8;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
       --green: #22c55e;
-      --green-dim: rgba(34,197,94,0.15);
+      --green-dim: rgba(34,197,94,0.12);
       --red: #ef4444;
-      --red-dim: rgba(239,68,68,0.15);
+      --red-dim: rgba(239,68,68,0.1);
       --whatsapp: #25D366;
       --radius: 16px;
-      --radius-sm: 10px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
       --radius-full: 9999px;
       --font-display: 'Playfair Display', Georgia, serif;
       --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-      --shadow: 0 8px 32px rgba(0,0,0,0.4);
-      --shadow-lg: 0 16px 48px rgba(0,0,0,0.6);
     }
 
     html { scroll-behavior: smooth; }
+
     body {
       font-family: var(--font-body);
       background: var(--bg);
       color: var(--text);
       min-width: 320px;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      line-height: 1.6;
     }
+
     [x-cloak] { display: none !important; }
 
     /* Ambient glow */
     body::before {
       content: '';
-      position: fixed; top: -40%; left: -20%;
-      width: 80%; height: 80%;
-      background: radial-gradient(ellipse, rgba(212,175,55,0.04) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed; bottom: -30%; right: -20%;
-      width: 70%; height: 70%;
-      background: radial-gradient(ellipse, rgba(212,175,55,0.03) 0%, transparent 70%);
+      position: fixed; top: -50%; left: -30%; width: 100%; height: 100%;
+      background: radial-gradient(ellipse, rgba(212,175,55,0.03) 0%, transparent 60%);
       pointer-events: none; z-index: 0;
     }
 
     /* Scrollbar */
-    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
 
-    /* Focus visible */
-    :focus-visible {
-      outline: 2px solid var(--gold);
-      outline-offset: 2px;
-    }
-    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
-      outline: 2px solid var(--gold);
-      outline-offset: 2px;
-    }
+    /* Focus */
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
-    /* Hide scrollbar utility */
+    /* Hide scrollbar */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* ================================================
-       LOADING SKELETON
-       ================================================ */
-    .skeleton-screen {
-      max-width: 640px; margin: 0 auto; padding: 2rem 1rem;
-    }
-    .skeleton {
-      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: var(--radius-sm);
-    }
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    .skeleton-circle { border-radius: 50%; }
-    .skeleton-card {
-      display: flex; gap: 0; background: var(--surface);
-      border-radius: var(--radius); overflow: hidden;
-      border: 1px solid var(--border); margin-bottom: 0.75rem;
-    }
-    .skeleton-card-img { width: 110px; min-height: 110px; flex-shrink: 0; }
-    .skeleton-card-body { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    /* Tap feedback */
+    .tap { transition: transform 0.1s ease; }
+    .tap:active { transform: scale(0.97); }
 
-    /* ================================================
-       HERO SECTION
-       ================================================ */
-    .hero {
-      position: relative; padding: 2.5rem 1.25rem 1.25rem;
-      text-align: center; overflow: hidden;
+    /* ========================================
+       LOADING SKELETON
+       ======================================== */
+    .skeleton-screen { max-width: 480px; margin: 0 auto; padding: 2rem 1rem; }
+    .sk {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: var(--radius-xs);
     }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(180deg, var(--bg) 0%, transparent 30%, transparent 70%, var(--bg) 100%);
-      z-index: 1;
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .sk-circle { border-radius: 50%; }
+    .sk-card {
+      display: flex; background: var(--surface); border-radius: var(--radius);
+      overflow: hidden; border: 1px solid var(--border); margin-bottom: 12px;
+    }
+    .sk-card-img { width: 140px; min-height: 140px; flex-shrink: 0; }
+    .sk-card-body { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      position: relative; padding: 32px 16px 20px; text-align: center;
     }
     .hero-content { position: relative; z-index: 2; }
+
+    /* Animated logo ring */
+    .logo-wrap {
+      width: 100px; height: 100px; margin: 0 auto 16px;
+      position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    .logo-ring {
+      position: absolute; inset: -4px; border-radius: 50%;
+      border: 2px solid transparent;
+      background: conic-gradient(from 0deg, var(--gold), var(--gold-light), var(--gold), transparent) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: logoSpin 4s linear infinite;
+    }
+    @keyframes logoSpin { to { transform: rotate(360deg); } }
     .hero-logo {
-      width: 90px; height: 90px; border-radius: 50%;
-      border: 3px solid var(--gold); object-fit: cover;
-      margin: 0 auto 1rem;
-      box-shadow: 0 0 30px rgba(212,175,55,0.2);
-      background: var(--surface);
+      width: 92px; height: 92px; border-radius: 50%; object-fit: cover;
+      background: var(--surface); border: 2px solid var(--surface3);
     }
     .hero-logo-fallback {
-      width: 90px; height: 90px; border-radius: 50%;
-      border: 3px solid var(--gold); margin: 0 auto 1rem;
-      box-shadow: 0 0 30px rgba(212,175,55,0.2);
-      background: var(--surface);
+      width: 92px; height: 92px; border-radius: 50%; background: var(--surface);
+      border: 2px solid var(--surface3);
       display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-size: 1.6rem;
-      font-weight: 700; color: var(--gold);
+      font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--gold);
     }
+
     .hero h1 {
-      font-family: var(--font-display); font-size: 2.2rem;
-      font-weight: 700; color: var(--gold);
-      letter-spacing: 0.02em; line-height: 1.2;
+      font-family: var(--font-display); font-size: 2rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.01em; line-height: 1.2;
     }
-    .hero h1::after {
-      content: ''; display: block; width: 60px; height: 2px;
+    .hero-divider {
+      width: 48px; height: 1.5px; margin: 10px auto;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 0.75rem auto;
     }
     .hero .tagline {
-      font-size: 0.78rem; text-transform: uppercase;
-      letter-spacing: 3px; color: var(--text-muted); font-weight: 400;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2.5px;
+      color: var(--text-muted); font-weight: 500;
     }
-    .hero-actions {
-      display: flex; justify-content: center; gap: 0.75rem; margin-top: 1.25rem;
+
+    /* Status + Rating bar */
+    .hero-meta {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary);
     }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: var(--radius-full);
+      background: var(--green-dim); color: var(--green);
+      font-weight: 600; font-size: 0.7rem;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .rating-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-weight: 600; color: var(--gold);
+    }
+    .hero-meta .sep { color: var(--text-muted); }
+
+    /* Hero action buttons */
+    .hero-actions { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
     .hero-btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.6rem 1.2rem; border-radius: var(--radius-full);
-      font-size: 0.8rem; font-weight: 500; text-decoration: none;
-      transition: all 0.3s ease; min-height: 44px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: var(--radius-full);
+      font-size: 0.78rem; font-weight: 500; text-decoration: none;
+      transition: all 0.2s ease; min-height: 44px;
       border: none; cursor: pointer; font-family: var(--font-body);
     }
     .hero-btn--call {
-      background: var(--gold-dim); color: var(--gold);
-      border: 1px solid rgba(212,175,55,0.2);
+      background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(212,175,55,0.15);
     }
-    .hero-btn--call:hover { background: rgba(212,175,55,0.25); }
+    .hero-btn--call:hover { background: rgba(212,175,55,0.2); }
     .hero-btn--map {
-      background: rgba(255,255,255,0.05); color: var(--text-muted);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04); color: var(--text-secondary); border: 1px solid var(--border);
     }
-    .hero-btn--map:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+    .hero-btn--map:hover { background: rgba(255,255,255,0.07); color: var(--text); }
 
-    /* ================================================
-       STICKY NAV: SEARCH + FILTERS + CATEGORIES
-       ================================================ */
+    /* ========================================
+       STICKY NAV
+       ======================================== */
     .sticky-nav {
       position: sticky; top: 0; z-index: 30;
-      background: rgba(10,10,11,0.85);
+      background: rgba(9,9,11,0.88);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      padding: 0.65rem 1rem 0.5rem;
+      padding: 10px 16px 8px;
     }
-    .nav-inner { max-width: 640px; margin: 0 auto; }
+    .nav-inner { max-width: 480px; margin: 0 auto; }
 
     /* Search */
-    .search-wrap {
-      position: relative; margin-bottom: 0.6rem;
-    }
+    .search-wrap { position: relative; margin-bottom: 8px; }
     .search-icon {
-      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
-      color: var(--text-dim); pointer-events: none;
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none;
     }
     .search-input {
-      width: 100%; padding: 0.55rem 2.2rem 0.55rem 2.4rem;
-      border-radius: var(--radius-full);
-      border: 1px solid var(--border); background: var(--surface2);
-      color: var(--text); font-size: 0.82rem;
-      font-family: var(--font-body); outline: none;
-      transition: all 0.25s ease; min-height: 44px;
+      width: 100%; padding: 10px 40px 10px 38px;
+      border-radius: var(--radius-full); border: 1px solid var(--border);
+      background: var(--surface2); color: var(--text);
+      font-size: 0.82rem; font-family: var(--font-body); outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s; min-height: 44px;
     }
-    .search-input::placeholder { color: var(--text-dim); }
-    .search-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.1); }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { border-color: rgba(212,175,55,0.4); box-shadow: 0 0 0 3px rgba(212,175,55,0.08); }
     .search-clear {
-      position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
-      width: 28px; height: 28px; border-radius: 50%;
-      background: var(--surface3); border: none;
-      color: var(--text-muted); cursor: pointer;
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      width: 30px; height: 30px; border-radius: 50%; background: var(--surface3);
+      border: none; color: var(--text-muted); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s; min-width: 44px; min-height: 44px;
-      padding: 8px;
+      min-width: 44px; min-height: 44px; padding: 7px;
     }
     .search-clear:hover { background: var(--border-light); color: var(--text); }
 
     /* Filters */
-    .filters { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .filters { display: flex; gap: 6px; margin-bottom: 8px; }
     .filter-btn {
-      padding: 0.5rem 1rem; border-radius: var(--radius-full);
-      font-size: 0.78rem; font-weight: 500;
-      border: 1px solid var(--border); background: transparent;
-      color: var(--text-muted); cursor: pointer;
-      transition: all 0.25s ease; min-height: 44px;
-      display: flex; align-items: center; gap: 0.4rem;
-      font-family: var(--font-body);
+      padding: 6px 14px; border-radius: var(--radius-full);
+      font-size: 0.76rem; font-weight: 500; border: 1px solid var(--border);
+      background: transparent; color: var(--text-muted); cursor: pointer;
+      transition: all 0.2s ease; min-height: 44px;
+      display: flex; align-items: center; gap: 5px; font-family: var(--font-body);
     }
-    .filter-btn:hover { border-color: var(--border-light); color: var(--text); }
-    .filter-btn.active--all { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: #1a1a1a; border-color: transparent; font-weight: 600; }
+    .filter-btn:hover { border-color: var(--border-light); color: var(--text-secondary); }
+    .filter-btn.active--all { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: #111; border-color: transparent; font-weight: 600; }
     .filter-btn.active--veg { background: var(--green); color: #fff; border-color: transparent; font-weight: 600; }
     .filter-btn.active--nonveg { background: var(--red); color: #fff; border-color: transparent; font-weight: 600; }
 
     /* Veg/NonVeg indicators */
-    .veg-dot, .nonveg-dot {
+    .vdot, .nvdot {
       width: 14px; height: 14px; border: 2px solid; border-radius: 3px;
       display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .veg-dot { border-color: var(--green); }
-    .nonveg-dot { border-color: var(--red); }
-    .veg-dot::after, .nonveg-dot::after {
-      content: ''; width: 7px; height: 7px; border-radius: 50%;
-    }
-    .veg-dot::after { background: var(--green); }
-    .nonveg-dot::after { background: var(--red); }
-    .veg-dot--sm, .nonveg-dot--sm { width: 12px; height: 12px; }
-    .veg-dot--sm::after, .nonveg-dot--sm::after { width: 5px; height: 5px; }
+    .vdot { border-color: var(--green); }
+    .nvdot { border-color: var(--red); }
+    .vdot::after, .nvdot::after { content: ''; width: 7px; height: 7px; border-radius: 50%; }
+    .vdot::after { background: var(--green); }
+    .nvdot::after { background: var(--red); }
+    .vdot--sm, .nvdot--sm { width: 11px; height: 11px; }
+    .vdot--sm::after, .nvdot--sm::after { width: 5px; height: 5px; }
 
-    /* Category nav */
-    .cat-nav {
-      display: flex; gap: 0.35rem; overflow-x: auto; padding-bottom: 2px;
-    }
+    /* Category tabs */
+    .cat-nav { display: flex; gap: 4px; overflow-x: auto; }
     .cat-tab {
-      padding: 0.5rem 0.85rem; border-radius: var(--radius-full);
+      padding: 7px 12px; border-radius: var(--radius-full);
       font-size: 0.72rem; font-weight: 500; white-space: nowrap;
       border: 1px solid transparent; background: transparent;
-      color: var(--text-dim); cursor: pointer;
-      transition: all 0.25s ease; min-height: 44px;
-      font-family: var(--font-body);
-      display: flex; align-items: center; gap: 0.35rem;
+      color: var(--text-muted); cursor: pointer;
+      transition: all 0.2s ease; min-height: 44px;
+      font-family: var(--font-body); display: flex; align-items: center; gap: 4px;
     }
-    .cat-tab:hover { color: var(--text-muted); }
-    .cat-tab.active {
-      background: var(--gold-dim); color: var(--gold);
-      border-color: rgba(212,175,55,0.15);
-    }
+    .cat-tab:hover { color: var(--text-secondary); }
+    .cat-tab.active { background: var(--gold-dim); color: var(--gold); border-color: rgba(212,175,55,0.12); font-weight: 600; }
     .cat-tab-count {
-      font-size: 0.6rem; opacity: 0.6;
-      background: rgba(255,255,255,0.06); padding: 1px 5px;
-      border-radius: var(--radius-full); font-weight: 600;
+      font-size: 0.6rem; opacity: 0.5; background: rgba(255,255,255,0.05);
+      padding: 1px 5px; border-radius: var(--radius-full);
     }
 
-    /* ================================================
+    /* ========================================
        MENU CONTENT
-       ================================================ */
+       ======================================== */
     .main {
-      max-width: 640px; margin: 0 auto;
-      padding: 0.5rem 1rem 7rem; position: relative; z-index: 1;
+      max-width: 480px; margin: 0 auto;
+      padding: 4px 16px 120px; position: relative; z-index: 1;
     }
-    .category-section { margin-bottom: 1.75rem; }
+
+    .category-section { margin-bottom: 24px; content-visibility: auto; }
     .category-title {
-      font-family: var(--font-display); font-size: 1.3rem; font-weight: 600;
-      color: var(--text); margin: 1.25rem 0 0.85rem;
-      display: flex; align-items: center; gap: 0.75rem;
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+      color: var(--text); margin: 20px 0 12px; display: flex; align-items: center; gap: 10px;
     }
     .category-title::before {
-      content: ''; width: 3px; height: 1.2em;
+      content: ''; width: 3px; height: 20px;
       background: linear-gradient(180deg, var(--gold), transparent);
-      border-radius: 2px;
+      border-radius: 2px; flex-shrink: 0;
     }
-    .category-count {
+    .cat-count {
       font-family: var(--font-body); font-size: 0.68rem;
-      font-weight: 400; color: var(--text-dim); margin-left: 0.25rem;
+      font-weight: 400; color: var(--text-muted);
     }
 
-    /* Menu card */
+    /* ========================================
+       MENU CARD — The hero of the UI
+       ======================================== */
     .menu-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-      margin-bottom: 0.75rem;
-      transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+      border-radius: var(--radius); overflow: hidden; margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease;
     }
     .menu-card:hover {
-      border-color: var(--border-light);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
+      transform: translateY(-2px); border-color: var(--border-light);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
     .menu-card-inner { display: flex; }
 
-    /* Card image */
+    /* Card image — LARGER */
     .card-img-wrap {
-      width: 110px; min-height: 110px; flex-shrink: 0;
-      position: relative; overflow: hidden; background: var(--surface2);
+      width: 140px; flex-shrink: 0; position: relative; overflow: hidden;
+      background: var(--surface2); aspect-ratio: 1;
     }
     .card-img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
     }
-    .menu-card:hover .card-img { transform: scale(1.08); }
-    .card-img-placeholder {
+    .menu-card:hover .card-img { transform: scale(1.06); }
+
+    /* Image shimmer skeleton */
+    .img-skeleton {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite;
+    }
+
+    /* Placeholder */
+    .card-placeholder {
       width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem;
-      background: linear-gradient(135deg, var(--surface2), var(--surface3));
+      background: linear-gradient(135deg, var(--surface2) 0%, var(--surface3) 100%);
+      position: relative; overflow: hidden;
+    }
+    .card-placeholder::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M20 20c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10-10-4.477-10-10zM0 20c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10S0 25.523 0 20z'/%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    .card-placeholder-icon {
+      font-size: 2.5rem; position: relative; z-index: 1;
+      filter: grayscale(0.3);
+    }
+
+    /* Bestseller badge */
+    .bestseller {
+      position: absolute; top: 8px; left: 0; z-index: 2;
+      padding: 2px 8px 2px 6px; border-radius: 0 4px 4px 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #111; font-size: 0.58rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      display: flex; align-items: center; gap: 3px;
+      box-shadow: 0 2px 6px rgba(212,175,55,0.3);
     }
 
     /* Card body */
     .card-body {
-      flex: 1; padding: 0.8rem 0.9rem;
-      display: flex; flex-direction: column; min-width: 0;
+      flex: 1; padding: 12px 14px; display: flex; flex-direction: column; min-width: 0;
     }
-    .card-header { display: flex; align-items: flex-start; gap: 0.5rem; }
+    .card-header { display: flex; align-items: flex-start; gap: 6px; }
     .card-name {
-      font-family: var(--font-display); font-size: 0.92rem;
-      font-weight: 600; color: var(--text); line-height: 1.3;
+      font-family: var(--font-display); font-size: 0.95rem;
+      font-weight: 700; color: var(--text); line-height: 1.3;
     }
     .card-desc {
-      font-size: 0.7rem; color: var(--text-dim); margin-top: 0.25rem;
-      line-height: 1.5;
+      font-size: 0.73rem; color: var(--text-muted); margin-top: 4px;
+      line-height: 1.6;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
     .card-footer {
       display: flex; align-items: center; justify-content: space-between;
-      margin-top: auto; padding-top: 0.5rem;
+      margin-top: auto; padding-top: 8px;
     }
     .card-price {
-      font-size: 1rem; font-weight: 700; color: var(--gold);
+      font-size: 1.05rem; font-weight: 700; color: var(--text);
+      font-variant-numeric: tabular-nums;
     }
+    .card-price .rupee { color: var(--gold); font-weight: 600; }
 
-    /* Add button with states */
+    /* Add button */
     .add-btn {
-      padding: 0.45rem 1.1rem; border-radius: var(--radius-sm);
+      padding: 6px 18px; border-radius: var(--radius-xs);
       font-size: 0.78rem; font-weight: 600; font-family: var(--font-body);
-      text-transform: uppercase; letter-spacing: 0.5px;
-      border: 1.5px solid var(--gold); background: transparent;
-      color: var(--gold); cursor: pointer;
-      transition: all 0.25s ease;
-      min-height: 44px; min-width: 44px;
-      position: relative; overflow: hidden;
+      text-transform: uppercase; letter-spacing: 0.3px;
+      border: 1.5px solid var(--border-light); background: transparent;
+      color: var(--text); cursor: pointer;
+      transition: all 0.2s ease; min-height: 44px; min-width: 44px;
     }
-    .add-btn:hover { background: var(--gold); color: #1a1a1a; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
-    .add-btn:active { transform: scale(0.95); }
-    .add-btn--adding {
-      background: var(--gold); color: #1a1a1a; border-color: var(--gold);
-      pointer-events: none;
-      animation: addPulse 0.5s ease;
-    }
-    .add-btn--added {
-      background: var(--green); color: #fff; border-color: var(--green);
-      pointer-events: none;
-    }
-    @keyframes addPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
+    .add-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+    .add-btn--adding { background: var(--gold); color: #111; border-color: var(--gold); pointer-events: none; animation: addPulse 0.4s ease; }
+    .add-btn--added { background: var(--green); color: #fff; border-color: var(--green); pointer-events: none; }
+    @keyframes addPulse { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
 
-    /* Quantity controls */
+    /* Qty controls */
     .qty-ctrl {
       display: flex; align-items: center;
-      border-radius: var(--radius-sm); border: 1.5px solid var(--gold); overflow: hidden;
+      border-radius: var(--radius-xs); border: 1.5px solid var(--gold); overflow: hidden;
+      background: var(--gold-dim);
     }
     .qty-btn {
-      width: 36px; height: 38px;
+      width: 36px; height: 36px;
       display: flex; align-items: center; justify-content: center;
       background: transparent; color: var(--gold);
       font-size: 1.1rem; font-weight: 700; border: none; cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.15s;
       min-height: 44px; min-width: 44px; font-family: var(--font-body);
     }
-    .qty-btn:hover { background: var(--gold-dim); }
+    .qty-btn:hover { background: rgba(212,175,55,0.15); }
     .qty-val {
-      width: 28px; text-align: center;
-      font-size: 0.85rem; font-weight: 700; color: var(--gold);
-      transition: transform 0.15s ease;
+      width: 24px; text-align: center; font-size: 0.85rem;
+      font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums;
     }
-    .qty-val-bump { animation: qtyBump 0.2s ease; }
-    @keyframes qtyBump {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
+
+    /* Scroll reveal animation */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
     }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* Empty state */
-    .empty-state {
-      text-align: center; padding: 4rem 1rem; color: var(--text-dim);
-    }
-    .empty-state p { font-size: 0.9rem; }
-    .empty-state p + p { font-size: 0.75rem; margin-top: 0.3rem; }
+    .empty-state { text-align: center; padding: 48px 16px; color: var(--text-muted); }
+    .empty-state p { font-size: 0.88rem; }
+    .empty-state p + p { font-size: 0.75rem; margin-top: 4px; color: var(--text-muted); }
 
-    /* Search result highlight */
-    .search-result-info {
-      text-align: center; padding: 0.5rem;
-      font-size: 0.75rem; color: var(--text-dim);
-    }
+    /* Search count */
+    .search-info { text-align: center; padding: 8px; font-size: 0.73rem; color: var(--text-muted); }
 
-    /* ================================================
-       FLOATING CART FAB
-       ================================================ */
-    .cart-fab {
-      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 40;
-      width: 60px; height: 60px; border-radius: 50%;
+    /* ========================================
+       TOAST NOTIFICATION
+       ======================================== */
+    .toast {
+      position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+      z-index: 60; padding: 10px 20px;
+      background: var(--surface3); border: 1px solid var(--border-light);
+      border-radius: var(--radius-full); color: var(--text);
+      font-size: 0.8rem; font-weight: 500;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap; pointer-events: none;
+    }
+    .toast-enter { animation: toastIn 0.3s cubic-bezier(0.22,1,0.36,1); }
+    .toast-leave { animation: toastOut 0.25s ease forwards; }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(16px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+    @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(-50%) translateY(8px); } }
+
+    /* ========================================
+       FLOATING CART
+       ======================================== */
+    .cart-strip {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+      padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+    .cart-strip-inner {
+      max-width: 480px; margin: 0 auto;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 30px rgba(212,175,55,0.35);
-      transition: all 0.3s ease; color: #1a1a1a;
-    }
-    .cart-fab:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(212,175,55,0.45); }
-    .cart-fab:active { transform: scale(0.93); }
-    .cart-badge {
-      position: absolute; top: -4px; right: -4px;
-      min-width: 22px; height: 22px; padding: 0 5px;
-      border-radius: var(--radius-full);
-      background: var(--red); color: #fff;
-      font-size: 0.68rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      border: 2px solid var(--bg);
+      border-radius: var(--radius); padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; box-shadow: 0 -4px 24px rgba(0,0,0,0.3), 0 4px 20px rgba(212,175,55,0.2);
       transition: transform 0.2s ease;
+      color: #111;
     }
-    .cart-badge-bounce { animation: badgeBounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    @keyframes badgeBounce {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.35); }
-      100% { transform: scale(1); }
+    .cart-strip-inner:hover { transform: translateY(-2px); }
+    .cart-strip-inner:active { transform: scale(0.98); }
+    .cart-strip-left { display: flex; align-items: center; gap: 10px; }
+    .cart-strip-count {
+      width: 28px; height: 28px; border-radius: var(--radius-xs);
+      background: rgba(0,0,0,0.15); display: flex; align-items: center;
+      justify-content: center; font-size: 0.82rem; font-weight: 700;
     }
+    .cart-strip-label { font-size: 0.85rem; font-weight: 600; }
+    .cart-strip-label small { font-weight: 400; font-size: 0.72rem; opacity: 0.7; display: block; }
+    .cart-strip-total { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+    .cart-strip-arrow { font-size: 1.2rem; margin-left: 4px; }
 
-    /* Cart total strip on FAB */
-    .cart-fab-total {
-      position: fixed; bottom: 1.5rem; right: 5.5rem; z-index: 40;
-      background: var(--surface2); border: 1px solid var(--border-light);
-      border-radius: var(--radius-full);
-      padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600;
-      color: var(--gold); white-space: nowrap;
-      box-shadow: var(--shadow);
-      pointer-events: none;
-    }
-
-    /* ================================================
+    /* ========================================
        CART DRAWER
-       ================================================ */
+       ======================================== */
     .cart-overlay { position: fixed; inset: 0; z-index: 50; }
-    .cart-backdrop {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-    }
+    .cart-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
     .cart-panel {
       position: absolute; bottom: 0; left: 0; right: 0;
       max-height: 92vh; background: var(--surface);
@@ -493,236 +497,247 @@
       border-radius: 20px 20px 0 0;
       display: flex; flex-direction: column; overflow: hidden;
     }
-
-    .slide-enter { animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+    .slide-enter { animation: slideUp 0.35s cubic-bezier(0.22,1,0.36,1); }
     .slide-leave { animation: slideDown 0.25s ease-in forwards; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     @keyframes slideDown { from { transform: translateY(0); } to { transform: translateY(100%); } }
 
-    /* Drawer handle */
-    .drawer-handle {
-      width: 36px; height: 4px; border-radius: 2px;
-      background: var(--surface3); margin: 0.6rem auto 0;
-    }
+    .drawer-handle { width: 40px; height: 4px; border-radius: 2px; background: var(--surface3); margin: 8px auto 0; }
 
     .cart-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); flex-shrink: 0;
+      padding: 12px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0;
     }
-    .cart-header h2 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
-    .cart-header-actions { display: flex; gap: 0.5rem; align-items: center; }
+    .cart-header h2 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+    .cart-header-sub { font-family: var(--font-body); font-size: 0.72rem; color: var(--text-muted); font-weight: 400; }
+    .cart-header-actions { display: flex; gap: 6px; align-items: center; }
     .cart-clear {
-      font-size: 0.75rem; color: var(--red); background: none; border: none;
-      cursor: pointer; font-weight: 500; padding: 0.5rem;
+      font-size: 0.73rem; color: var(--red); background: none; border: none;
+      cursor: pointer; font-weight: 500; padding: 8px;
       min-height: 44px; display: flex; align-items: center; font-family: var(--font-body);
     }
     .cart-clear:hover { color: #ff6b6b; }
     .cart-close {
-      width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
       border-radius: 50%; background: var(--surface2); border: none;
-      color: var(--text-muted); cursor: pointer; transition: background 0.2s;
+      color: var(--text-muted); cursor: pointer; transition: background 0.15s;
       min-height: 44px; min-width: 44px;
     }
     .cart-close:hover { background: var(--surface3); color: var(--text); }
 
-    .cart-body { flex: 1; overflow-y: auto; padding: 0.75rem 1.25rem; }
+    .cart-body { flex: 1; overflow-y: auto; padding: 8px 16px; }
 
+    /* Cart item with thumbnail */
     .cart-item {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.7rem 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
     }
     .cart-item:last-child { border-bottom: none; }
+    .cart-item-thumb {
+      width: 44px; height: 44px; border-radius: var(--radius-xs);
+      object-fit: cover; flex-shrink: 0; background: var(--surface2);
+    }
+    .cart-item-thumb-placeholder {
+      width: 44px; height: 44px; border-radius: var(--radius-xs);
+      background: var(--surface2); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
     .cart-item-info { flex: 1; min-width: 0; }
-    .cart-item-name {
-      font-size: 0.83rem; font-weight: 500;
-      display: flex; align-items: center; gap: 0.4rem;
-    }
-    .cart-item-each { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.1rem; }
-    .cart-item-total {
-      font-size: 0.88rem; font-weight: 700; color: var(--gold);
-      min-width: 55px; text-align: right;
-    }
+    .cart-item-name { font-size: 0.82rem; font-weight: 500; display: flex; align-items: center; gap: 5px; }
+    .cart-item-each { font-size: 0.68rem; color: var(--text-muted); margin-top: 1px; }
+    .cart-item-total { font-size: 0.88rem; font-weight: 700; color: var(--text); min-width: 50px; text-align: right; font-variant-numeric: tabular-nums; }
+
     .cart-qty {
-      display: flex; align-items: center;
-      border-radius: 8px; background: var(--surface2); border: 1px solid var(--border);
+      display: flex; align-items: center; border-radius: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
     }
     .cart-qty button {
-      width: 34px; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      background: none; border: none; color: var(--text);
-      font-size: 1rem; font-weight: 600; cursor: pointer; transition: color 0.2s;
+      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+      background: none; border: none; color: var(--text-secondary);
+      font-size: 1rem; font-weight: 600; cursor: pointer;
       min-height: 44px; min-width: 44px; font-family: var(--font-body);
     }
     .cart-qty button:hover { color: var(--gold); }
-    .cart-qty span { width: 22px; text-align: center; font-size: 0.8rem; font-weight: 700; }
+    .cart-qty span { width: 20px; text-align: center; font-size: 0.78rem; font-weight: 700; }
 
-    .cart-total {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.85rem 0 0; margin-top: 0.5rem;
-      border-top: 1px solid var(--border-light);
+    /* Cart total */
+    .cart-total-section {
+      padding: 12px 0 0; margin-top: 8px; border-top: 1px solid var(--border-light);
     }
-    .cart-total-label { font-size: 0.95rem; font-weight: 600; }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: center; }
+    .cart-total-label { font-size: 0.9rem; font-weight: 600; }
     .cart-total-amount {
-      font-family: var(--font-display); font-size: 1.4rem;
-      font-weight: 700; color: var(--gold);
-      transition: transform 0.2s ease;
+      font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: var(--gold);
     }
 
-    /* Order type */
-    .order-section { margin-top: 1.25rem; }
+    /* Order section */
+    .order-section { margin-top: 20px; }
     .order-section h3 {
-      font-size: 0.75rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 1px;
-      color: var(--text-muted); margin-bottom: 0.75rem;
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;
     }
-    .order-types { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+    .order-types { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     .order-type-btn {
-      padding: 0.7rem; border-radius: var(--radius-sm);
+      padding: 10px; border-radius: var(--radius-xs);
       border: 1.5px solid var(--border); background: transparent;
-      color: var(--text-muted); cursor: pointer; transition: all 0.25s ease;
-      text-align: center; font-family: var(--font-body);
-      font-size: 0.82rem; font-weight: 500; min-height: 44px;
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      color: var(--text-muted); cursor: pointer; transition: all 0.2s ease;
+      font-family: var(--font-body); font-size: 0.8rem; font-weight: 500;
+      min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px;
     }
     .order-type-btn:hover { border-color: var(--border-light); }
     .order-type-btn.active { border-color: var(--gold); background: var(--gold-dim); color: var(--gold); }
 
     /* Form */
-    .form-group { margin-bottom: 0.7rem; }
-    .form-label { display: block; font-size: 0.73rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.3rem; }
+    .form-group { margin-bottom: 10px; }
+    .form-label { display: block; font-size: 0.72rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; }
     .form-label .req { color: var(--red); }
     .form-input {
-      width: 100%; padding: 0.6rem 0.85rem; border-radius: var(--radius-sm);
+      width: 100%; padding: 10px 12px; border-radius: var(--radius-xs);
       border: 1.5px solid var(--border); background: var(--surface2);
       color: var(--text); font-size: 0.85rem; font-family: var(--font-body);
-      transition: all 0.25s ease; min-height: 44px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s; min-height: 44px; outline: none;
     }
-    .form-input::placeholder { color: var(--text-dim); }
-    .form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.1); }
-    textarea.form-input { resize: none; min-height: 65px; }
+    .form-input::placeholder { color: var(--text-muted); }
+    .form-input:focus { border-color: rgba(212,175,55,0.4); box-shadow: 0 0 0 3px rgba(212,175,55,0.08); }
+    textarea.form-input { resize: none; min-height: 60px; }
 
     .form-error {
-      color: var(--red); font-size: 0.76rem; margin-top: 0.5rem;
-      display: flex; align-items: center; gap: 0.35rem;
+      color: var(--red); font-size: 0.74rem; margin-top: 8px;
+      display: flex; align-items: center; gap: 4px;
     }
 
     /* Cart footer */
     .cart-footer {
-      padding: 0.85rem 1.25rem; border-top: 1px solid var(--border);
-      flex-shrink: 0; background: var(--surface);
+      padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom));
+      border-top: 1px solid var(--border); flex-shrink: 0; background: var(--surface);
     }
     .wa-btn {
-      width: 100%; padding: 0.85rem; border-radius: var(--radius-sm);
+      width: 100%; padding: 14px; border-radius: var(--radius-sm);
       background: var(--whatsapp); color: #fff;
-      font-size: 0.95rem; font-weight: 600; font-family: var(--font-body);
+      font-size: 0.92rem; font-weight: 600; font-family: var(--font-body);
       border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      transition: all 0.25s ease; min-height: 48px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s ease; min-height: 52px;
     }
-    .wa-btn:hover { background: #1ebe57; box-shadow: 0 6px 20px rgba(37,211,102,0.3); }
+    .wa-btn:hover { background: #1ebe57; box-shadow: 0 6px 20px rgba(37,211,102,0.25); }
     .wa-btn:active { transform: scale(0.98); }
     .add-more-btn {
-      width: 100%; padding: 0.6rem; margin-top: 0.5rem;
+      width: 100%; padding: 10px; margin-top: 6px;
       border-radius: var(--radius-sm); background: transparent;
-      color: var(--text-muted); font-size: 0.82rem; font-weight: 500;
+      color: var(--text-muted); font-size: 0.8rem; font-weight: 500;
       font-family: var(--font-body); border: 1px solid var(--border);
-      cursor: pointer; transition: all 0.2s; min-height: 44px;
+      cursor: pointer; min-height: 44px;
     }
-    .add-more-btn:hover { background: var(--surface2); color: var(--text); }
+    .add-more-btn:hover { background: var(--surface2); color: var(--text-secondary); }
 
-    /* ================================================
-       SCROLL TO TOP
-       ================================================ */
+    /* Scroll to top */
     .scroll-top {
-      position: fixed; bottom: 1.5rem; left: 1.5rem; z-index: 40;
-      width: 44px; height: 44px; border-radius: 50%;
+      position: fixed; bottom: 80px; left: 16px; z-index: 39;
+      width: 40px; height: 40px; border-radius: 50%;
       background: var(--surface2); border: 1px solid var(--border);
       color: var(--text-muted); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s ease;
+      min-height: 44px; min-width: 44px;
     }
-    .scroll-top:hover { background: var(--surface3); color: var(--text); border-color: var(--border-light); }
+    .scroll-top:hover { background: var(--surface3); color: var(--text); }
 
-    /* Google Maps */
+    /* Maps button */
     .maps-btn {
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 12px 16px; border-radius: var(--radius);
       background: var(--surface); border: 1px solid var(--border);
-      color: var(--text-muted); font-size: 0.85rem; font-weight: 500;
-      text-decoration: none; transition: all 0.25s ease;
-      min-height: 44px; margin-top: 1.5rem; font-family: var(--font-body);
+      color: var(--text-secondary); font-size: 0.82rem; font-weight: 500;
+      text-decoration: none; min-height: 44px; margin-top: 24px; font-family: var(--font-body);
+      transition: all 0.2s;
     }
     .maps-btn:hover { border-color: var(--border-light); background: var(--surface2); color: var(--text); }
 
     /* Footer */
     .site-footer {
-      text-align: center; padding: 1.5rem;
-      font-size: 0.7rem; color: var(--text-dim);
+      text-align: center; padding: 20px 16px;
+      font-size: 0.68rem; color: var(--text-muted);
       border-top: 1px solid var(--border);
-      max-width: 640px; margin: 0 auto;
+      max-width: 480px; margin: 0 auto;
     }
     .site-footer span { color: var(--gold); font-weight: 500; }
 
     /* Responsive */
     @media (min-width: 480px) {
-      .hero h1 { font-size: 2.8rem; }
-      .card-img-wrap { width: 130px; min-height: 130px; }
+      .hero h1 { font-size: 2.5rem; }
+      .card-img-wrap { width: 160px; }
     }
   </style>
 </head>
 <body x-data="menuApp()" x-init="init()">
 
   <!-- Loading Skeleton -->
-  <div x-show="loading" x-cloak class="skeleton-screen" role="status" aria-label="Loading menu">
-    <div style="text-align:center; padding:1rem 0 1.5rem">
-      <div class="skeleton skeleton-circle" style="width:80px;height:80px;margin:0 auto 1rem"></div>
-      <div class="skeleton" style="width:180px;height:24px;margin:0 auto 0.5rem"></div>
-      <div class="skeleton" style="width:240px;height:12px;margin:0 auto"></div>
+  <div x-show="loading" class="skeleton-screen" role="status" aria-label="Loading menu">
+    <div style="text-align:center;padding:12px 0 20px">
+      <div class="sk sk-circle" style="width:80px;height:80px;margin:0 auto 12px"></div>
+      <div class="sk" style="width:160px;height:20px;margin:0 auto 8px"></div>
+      <div class="sk" style="width:220px;height:10px;margin:0 auto"></div>
     </div>
-    <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
-      <div class="skeleton" style="width:60px;height:36px;border-radius:99px"></div>
-      <div class="skeleton" style="width:70px;height:36px;border-radius:99px"></div>
-      <div class="skeleton" style="width:80px;height:36px;border-radius:99px"></div>
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      <div class="sk" style="width:50px;height:32px;border-radius:99px"></div>
+      <div class="sk" style="width:60px;height:32px;border-radius:99px"></div>
+      <div class="sk" style="width:70px;height:32px;border-radius:99px"></div>
     </div>
     <template x-for="i in 4" :key="i">
-      <div class="skeleton-card">
-        <div class="skeleton skeleton-card-img"></div>
-        <div class="skeleton-card-body">
-          <div class="skeleton" style="width:70%;height:14px"></div>
-          <div class="skeleton" style="width:100%;height:10px"></div>
+      <div class="sk-card">
+        <div class="sk sk-card-img"></div>
+        <div class="sk-card-body">
+          <div class="sk" style="width:65%;height:12px"></div>
+          <div class="sk" style="width:90%;height:9px"></div>
           <div style="display:flex;justify-content:space-between;margin-top:auto">
-            <div class="skeleton" style="width:50px;height:16px"></div>
-            <div class="skeleton" style="width:60px;height:32px;border-radius:8px"></div>
+            <div class="sk" style="width:45px;height:14px"></div>
+            <div class="sk" style="width:55px;height:30px;border-radius:8px"></div>
           </div>
         </div>
       </div>
     </template>
   </div>
 
-  <!-- App Content (hidden while loading) -->
+  <!-- App -->
   <div x-show="!loading" x-cloak>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
       <div class="hero-content">
-        <!-- Logo with fallback -->
-        <template x-if="restaurant.logo && !logoError">
-          <img :src="restaurant.logo" :alt="restaurant.name" class="hero-logo" @error="logoError = true">
-        </template>
-        <template x-if="!restaurant.logo || logoError">
-          <div class="hero-logo-fallback" x-text="restaurant.name ? restaurant.name.charAt(0) : 'M'" aria-hidden="true"></div>
-        </template>
-
+        <div class="logo-wrap">
+          <div class="logo-ring"></div>
+          <template x-if="restaurant.logo && !logoError">
+            <img :src="restaurant.logo" :alt="restaurant.name" class="hero-logo" @error="logoError = true">
+          </template>
+          <template x-if="!restaurant.logo || logoError">
+            <div class="hero-logo-fallback" x-text="restaurant.name ? restaurant.name.charAt(0) : 'M'"></div>
+          </template>
+        </div>
         <h1 x-text="restaurant.name"></h1>
+        <div class="hero-divider"></div>
         <p class="tagline" x-text="restaurant.tagline"></p>
+
+        <!-- Status + Rating -->
+        <div class="hero-meta" x-show="restaurant.rating">
+          <span class="status-badge" x-show="restaurant.status">
+            <span class="status-dot"></span>
+            <span x-text="restaurant.status"></span>
+          </span>
+          <span class="sep">&bull;</span>
+          <span class="rating-badge">
+            <span>&#9733;</span>
+            <span x-text="restaurant.rating"></span>
+          </span>
+          <span class="sep">&bull;</span>
+          <span x-text="restaurant.rating_count" style="font-size:0.7rem"></span>
+        </div>
+
         <div class="hero-actions">
-          <a :href="'tel:+' + restaurant.phone" class="hero-btn hero-btn--call" aria-label="Call restaurant">
-            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <a :href="'tel:+' + restaurant.phone" class="hero-btn hero-btn--call tap" aria-label="Call restaurant">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
             Call Us
           </a>
-          <a :href="restaurant.google_maps_url" target="_blank" rel="noopener" class="hero-btn hero-btn--map" aria-label="Find us on Google Maps">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+          <a :href="restaurant.google_maps_url" target="_blank" rel="noopener" class="hero-btn hero-btn--map tap" aria-label="Find on Google Maps">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
             Find Us
           </a>
         </div>
@@ -732,30 +747,25 @@
     <!-- Sticky Nav -->
     <div class="sticky-nav">
       <div class="nav-inner">
-        <!-- Search -->
         <div class="search-wrap">
           <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input type="text" x-model="search" @input="onSearch()" class="search-input" placeholder="Search menu..." aria-label="Search menu items">
-          <button x-show="search.length > 0" @click="search = ''; onSearch()" class="search-clear" aria-label="Clear search">
+          <input type="text" x-model="search" @input="onSearch()" class="search-input" placeholder="Search for dishes..." aria-label="Search menu items">
+          <button x-show="search.length > 0" @click="search = ''; onSearch()" class="search-clear tap" aria-label="Clear search">
             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
-
-        <!-- Filters -->
         <div class="filters" role="group" aria-label="Diet filter">
-          <button @click="filter = 'all'" class="filter-btn" :class="filter === 'all' && 'active--all'" :aria-pressed="filter === 'all'">All</button>
-          <button @click="filter = 'veg'" class="filter-btn" :class="filter === 'veg' && 'active--veg'" :aria-pressed="filter === 'veg'">
-            <span class="veg-dot" aria-hidden="true"></span> Veg
+          <button @click="filter = 'all'" class="filter-btn tap" :class="filter === 'all' && 'active--all'" :aria-pressed="filter === 'all'">All</button>
+          <button @click="filter = 'veg'" class="filter-btn tap" :class="filter === 'veg' && 'active--veg'" :aria-pressed="filter === 'veg'">
+            <span class="vdot" aria-hidden="true"></span> Veg
           </button>
-          <button @click="filter = 'nonveg'" class="filter-btn" :class="filter === 'nonveg' && 'active--nonveg'" :aria-pressed="filter === 'nonveg'">
-            <span class="nonveg-dot" aria-hidden="true"></span> Non-Veg
+          <button @click="filter = 'nonveg'" class="filter-btn tap" :class="filter === 'nonveg' && 'active--nonveg'" :aria-pressed="filter === 'nonveg'">
+            <span class="nvdot" aria-hidden="true"></span> Non-Veg
           </button>
         </div>
-
-        <!-- Category Tabs -->
         <nav class="cat-nav no-scrollbar" aria-label="Menu categories">
           <template x-for="(cat, idx) in categories" :key="idx">
-            <button @click="scrollToCategory(idx)" class="cat-tab" :class="activeCategory === idx && 'active'" :aria-selected="activeCategory === idx">
+            <button @click="scrollToCategory(idx)" class="cat-tab tap" :class="activeCategory === idx && 'active'" :aria-selected="activeCategory === idx">
               <span x-text="cat.name"></span>
               <span class="cat-tab-count" x-text="filteredItems(cat).length"></span>
             </button>
@@ -764,56 +774,58 @@
       </div>
     </div>
 
-    <!-- Menu Content -->
+    <!-- Menu -->
     <main class="main" role="main">
-      <!-- Search result info -->
-      <div x-show="search.length > 0" class="search-result-info" aria-live="polite">
-        <span x-text="totalFilteredItems + ' result' + (totalFilteredItems !== 1 ? 's' : '') + ' for &quot;' + search + '&quot;'"></span>
+      <div x-show="search.length > 0" class="search-info" aria-live="polite">
+        <span x-text="totalFilteredItems + ' result' + (totalFilteredItems !== 1 ? 's' : '') + ' for \u201c' + search + '\u201d'"></span>
       </div>
 
       <template x-for="(cat, catIdx) in categories" :key="catIdx">
-        <section :id="'cat-' + catIdx" class="category-section" :aria-label="cat.name + ' category'">
+        <section :id="'cat-' + catIdx" class="category-section" :aria-label="cat.name">
           <h2 class="category-title" x-show="filteredItems(cat).length > 0">
             <span x-text="cat.name"></span>
-            <span class="category-count" x-text="filteredItems(cat).length + ' items'"></span>
+            <span class="cat-count" x-text="filteredItems(cat).length + ' items'"></span>
           </h2>
-          <template x-for="item in filteredItems(cat)" :key="item.name">
-            <article class="menu-card">
+          <template x-for="(item, itemIdx) in filteredItems(cat)" :key="item.name">
+            <article class="menu-card reveal" :data-reveal="catIdx + '-' + itemIdx" x-init="$nextTick(() => observeReveal($el))">
               <div class="menu-card-inner">
                 <!-- Image -->
                 <div class="card-img-wrap">
+                  <!-- Bestseller badge -->
+                  <div x-show="item.is_bestseller" class="bestseller">&#9733; Bestseller</div>
+                  <!-- Shimmer while loading -->
+                  <div x-show="item.image && !item._loaded" class="img-skeleton"></div>
                   <template x-if="item.image">
-                    <img :src="item.image" :alt="item.name" class="card-img" loading="lazy" @error="item.image = ''">
+                    <img :src="item.image" :alt="item.name" class="card-img" loading="lazy" @load="item._loaded = true" @error="item.image = ''">
                   </template>
                   <template x-if="!item.image">
-                    <div class="card-img-placeholder" x-text="getItemEmoji(item, cat.name)" aria-hidden="true"></div>
+                    <div class="card-placeholder">
+                      <span class="card-placeholder-icon" x-text="getEmoji(item, cat.name)" aria-hidden="true"></span>
+                    </div>
                   </template>
                 </div>
                 <!-- Body -->
                 <div class="card-body">
                   <div class="card-header">
-                    <span :class="item.is_veg ? 'veg-dot' : 'nonveg-dot'" :aria-label="item.is_veg ? 'Vegetarian' : 'Non-vegetarian'"></span>
+                    <span :class="item.is_veg ? 'vdot' : 'nvdot'" :aria-label="item.is_veg ? 'Vegetarian' : 'Non-vegetarian'"></span>
                     <span class="card-name" x-text="item.name"></span>
                   </div>
                   <p class="card-desc" x-show="item.description" x-text="item.description"></p>
                   <div class="card-footer">
-                    <span class="card-price" x-text="formatPrice(item.price)"></span>
-                    <!-- Add Button with animation state -->
+                    <span class="card-price"><span class="rupee">&#8377;</span><span x-text="fmtPrice(item.price)"></span></span>
                     <template x-if="!getCartItem(cat.name, item.name)">
-                      <button
-                        class="add-btn"
-                        :class="addingState === cat.name + '-' + item.name ? (addedState === cat.name + '-' + item.name ? 'add-btn--added' : 'add-btn--adding') : ''"
-                        @click="addWithAnimation(cat.name, item)"
+                      <button class="add-btn tap"
+                        :class="addingKey === cat.name + '-' + item.name ? (addedKey === cat.name + '-' + item.name ? 'add-btn--added' : 'add-btn--adding') : ''"
+                        @click="addWithAnim(cat.name, item)"
                         :aria-label="'Add ' + item.name + ' to cart'"
-                        x-text="addedState === cat.name + '-' + item.name ? '✓' : (addingState === cat.name + '-' + item.name ? '...' : 'Add')"
-                      ></button>
+                        x-text="addedKey === cat.name + '-' + item.name ? '\u2713' : (addingKey === cat.name + '-' + item.name ? '...' : 'ADD')">
+                      </button>
                     </template>
-                    <!-- Qty Controls -->
                     <template x-if="getCartItem(cat.name, item.name)">
-                      <div class="qty-ctrl" :aria-label="'Quantity controls for ' + item.name">
-                        <button class="qty-btn" @click="decrementItem(cat.name, item.name)" :aria-label="'Decrease quantity of ' + item.name">&minus;</button>
-                        <span class="qty-val" :id="'qty-' + catIdx + '-' + item.name.replace(/\s/g,'')" x-text="getCartItem(cat.name, item.name)?.qty || 0" aria-live="polite"></span>
-                        <button class="qty-btn" @click="incrementItem(cat.name, item.name)" :aria-label="'Increase quantity of ' + item.name">+</button>
+                      <div class="qty-ctrl" :aria-label="'Quantity for ' + item.name">
+                        <button class="qty-btn" @click="decrement(cat.name, item.name)" :aria-label="'Decrease ' + item.name">&minus;</button>
+                        <span class="qty-val" x-text="getCartItem(cat.name, item.name)?.qty || 0" aria-live="polite"></span>
+                        <button class="qty-btn" @click="increment(cat.name, item.name)" :aria-label="'Increase ' + item.name">+</button>
                       </div>
                     </template>
                   </div>
@@ -824,256 +836,240 @@
         </section>
       </template>
 
-      <!-- Empty state -->
+      <!-- Empty -->
       <div x-show="totalFilteredItems === 0" class="empty-state" role="status">
-        <svg width="56" height="56" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text-dim);margin:0 auto 0.75rem;display:block"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--text-muted);margin:0 auto 12px;display:block"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         <p>No items found</p>
         <p>Try a different search or filter</p>
       </div>
 
-      <!-- Google Maps -->
-      <a :href="restaurant.google_maps_url" target="_blank" rel="noopener" class="maps-btn" aria-label="Open restaurant location on Google Maps">
-        <svg width="18" height="18" fill="#ea4335" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+      <a :href="restaurant.google_maps_url" target="_blank" rel="noopener" class="maps-btn tap" aria-label="Open Google Maps">
+        <svg width="16" height="16" fill="#ea4335" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
         Find Us on Google Maps
       </a>
     </main>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-      Powered by <span>DigiMenu</span> &middot; Zed Labs
-    </footer>
+    <footer class="site-footer">Powered by <span>DigiMenu</span> &middot; Zed Labs</footer>
   </div>
 
-  <!-- Floating Cart FAB -->
-  <template x-if="cartCount > 0">
-    <div>
-      <span class="cart-fab-total" x-show="!cartOpen" x-text="formatPrice(cartTotal)" x-transition></span>
-      <button x-show="!cartOpen" @click="openCart()" class="cart-fab" aria-label="Open cart" x-transition>
-        <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
-        <span class="cart-badge" :class="badgeBounce && 'cart-badge-bounce'" x-text="cartCount" aria-live="polite"></span>
-      </button>
+  <!-- Toast -->
+  <div x-show="toast" x-cloak class="toast" :class="toastLeaving ? 'toast-leave' : 'toast-enter'" x-text="'\u2713 ' + toastText"></div>
+
+  <!-- Cart Strip (Swiggy-style bottom bar) -->
+  <template x-if="cartCount > 0 && !cartOpen">
+    <div class="cart-strip" x-transition>
+      <div class="cart-strip-inner tap" @click="openCart()" role="button" aria-label="View cart">
+        <div class="cart-strip-left">
+          <span class="cart-strip-count" x-text="cartCount"></span>
+          <span class="cart-strip-label">
+            <span x-text="cartCount === 1 ? '1 item' : cartCount + ' items'"></span>
+            <small x-text="'from ' + restaurant.name"></small>
+          </span>
+        </div>
+        <div class="cart-strip-total">
+          <span x-text="fmtPriceRupee(cartTotal)"></span>
+          <span class="cart-strip-arrow">&#8250;</span>
+        </div>
+      </div>
     </div>
   </template>
 
-  <!-- Scroll to Top -->
-  <button x-show="showScrollTop" x-cloak @click="window.scrollTo({top:0,behavior:'smooth'})" class="scroll-top" aria-label="Scroll to top" x-transition>
-    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+  <!-- Scroll to top -->
+  <button x-show="showScrollTop && cartCount === 0" x-cloak @click="window.scrollTo({top:0,behavior:'smooth'})" class="scroll-top tap" aria-label="Scroll to top" x-transition>
+    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
   </button>
 
   <!-- Cart Drawer -->
-  <div x-show="cartOpen" x-cloak class="cart-overlay" role="dialog" aria-modal="true" aria-label="Shopping cart" @keydown.escape.window="closeCart()">
+  <div x-show="cartOpen" x-cloak class="cart-overlay" role="dialog" aria-modal="true" aria-label="Your cart" @keydown.escape.window="closeCart()">
     <div class="cart-backdrop" @click="closeCart()" x-show="cartOpen" x-transition.opacity.duration.300ms></div>
     <div class="cart-panel" x-show="cartOpen" x-transition:enter="slide-enter" x-transition:leave="slide-leave" x-trap.noscroll="cartOpen">
       <div class="drawer-handle"></div>
-
-      <!-- Header -->
       <div class="cart-header">
-        <h2>Your Order <span style="font-family:var(--font-body);font-size:0.75rem;color:var(--text-dim);font-weight:400" x-text="'(' + cartCount + ' item' + (cartCount !== 1 ? 's' : '') + ')'"></span></h2>
+        <h2>Your Order <span class="cart-header-sub" x-text="'(' + cartCount + (cartCount === 1 ? ' item' : ' items') + ')'"></span></h2>
         <div class="cart-header-actions">
-          <button class="cart-clear" @click="confirmClearCart()" aria-label="Clear all items from cart">Clear All</button>
+          <button class="cart-clear tap" @click="confirmClearCart()" aria-label="Clear cart">Clear</button>
           <button class="cart-close" @click="closeCart()" aria-label="Close cart">
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
       </div>
-
-      <!-- Body -->
       <div class="cart-body">
         <template x-if="cart.length === 0">
-          <div class="empty-state" style="padding:2.5rem 0">
-            <p>Your cart is empty</p>
-            <p>Add items from the menu to get started</p>
-          </div>
+          <div class="empty-state" style="padding:32px 0"><p>Your cart is empty</p><p>Add items from the menu</p></div>
         </template>
-
         <template x-for="(item, idx) in cart" :key="item.category + '-' + item.name">
           <div class="cart-item">
+            <!-- Thumbnail -->
+            <template x-if="item.image"><img :src="item.image" :alt="item.name" class="cart-item-thumb" loading="lazy"></template>
+            <template x-if="!item.image"><div class="cart-item-thumb-placeholder" x-text="getEmoji(item, item.category)" aria-hidden="true"></div></template>
             <div class="cart-item-info">
               <div class="cart-item-name">
-                <span :class="item.is_veg ? 'veg-dot veg-dot--sm' : 'nonveg-dot nonveg-dot--sm'" aria-hidden="true"></span>
+                <span :class="item.is_veg ? 'vdot vdot--sm' : 'nvdot nvdot--sm'" aria-hidden="true"></span>
                 <span x-text="item.name"></span>
               </div>
-              <div class="cart-item-each" x-text="formatPrice(item.price) + ' each'"></div>
+              <div class="cart-item-each" x-text="fmtPriceRupee(item.price) + ' each'"></div>
             </div>
             <div class="cart-qty" :aria-label="'Quantity for ' + item.name">
-              <button @click="decrementItem(item.category, item.name)" :aria-label="'Decrease ' + item.name">&minus;</button>
+              <button @click="decrement(item.category, item.name)">&minus;</button>
               <span x-text="item.qty" aria-live="polite"></span>
-              <button @click="incrementItem(item.category, item.name)" :aria-label="'Increase ' + item.name">+</button>
+              <button @click="increment(item.category, item.name)">+</button>
             </div>
-            <div class="cart-item-total" x-text="formatPrice(item.price * item.qty)"></div>
+            <div class="cart-item-total" x-text="fmtPriceRupee(item.price * item.qty)"></div>
           </div>
         </template>
 
-        <div x-show="cart.length > 0" class="cart-total">
-          <span class="cart-total-label">Total</span>
-          <span class="cart-total-amount" x-text="formatPrice(cartTotal)" aria-live="polite"></span>
+        <div x-show="cart.length > 0" class="cart-total-section">
+          <div class="cart-total-row">
+            <span class="cart-total-label">Total</span>
+            <span class="cart-total-amount" x-text="fmtPriceRupee(cartTotal)" aria-live="polite"></span>
+          </div>
         </div>
 
         <!-- Order Type -->
         <div x-show="cart.length > 0" class="order-section">
-          <h3>Order Type</h3>
-          <div class="order-types" role="group" aria-label="Select order type">
-            <button @click="orderType = 'dinein'" class="order-type-btn" :class="orderType === 'dinein' && 'active'" :aria-pressed="orderType === 'dinein'">
-              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <h3>How would you like your order?</h3>
+          <div class="order-types" role="group" aria-label="Order type">
+            <button @click="orderType = 'dinein'" class="order-type-btn tap" :class="orderType === 'dinein' && 'active'" :aria-pressed="orderType === 'dinein'">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
               Dine-In
             </button>
-            <button @click="orderType = 'delivery'" class="order-type-btn" :class="orderType === 'delivery' && 'active'" :aria-pressed="orderType === 'delivery'">
-              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <button @click="orderType = 'delivery'" class="order-type-btn tap" :class="orderType === 'delivery' && 'active'" :aria-pressed="orderType === 'delivery'">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               Delivery
             </button>
           </div>
-
-          <!-- Dine-In -->
           <div x-show="orderType === 'dinein'" x-transition>
             <div class="form-group">
-              <label for="table-num" class="form-label">Table Number <span class="req">*</span></label>
-              <input id="table-num" type="text" x-model="dinein.tableNumber" placeholder="e.g. 5" class="form-input">
+              <label for="tbl" class="form-label">Table Number <span class="req">*</span></label>
+              <input id="tbl" type="text" x-model="dinein.tableNumber" placeholder="e.g. 5" class="form-input">
             </div>
           </div>
-
-          <!-- Delivery -->
           <div x-show="orderType === 'delivery'" x-transition>
             <div class="form-group">
-              <label for="del-name" class="form-label">Full Name <span class="req">*</span></label>
-              <input id="del-name" type="text" x-model="delivery.name" placeholder="Your name" class="form-input">
+              <label for="dname" class="form-label">Full Name <span class="req">*</span></label>
+              <input id="dname" type="text" x-model="delivery.name" placeholder="Your name" class="form-input">
             </div>
             <div class="form-group">
-              <label for="del-mobile" class="form-label">Mobile Number <span class="req">*</span></label>
-              <input id="del-mobile" type="tel" x-model="delivery.mobile" placeholder="+91 98765 43210" class="form-input">
+              <label for="dmob" class="form-label">Mobile Number <span class="req">*</span></label>
+              <input id="dmob" type="tel" x-model="delivery.mobile" placeholder="+91 98765 43210" class="form-input">
             </div>
             <div class="form-group">
-              <label for="del-addr" class="form-label">Delivery Address <span class="req">*</span></label>
-              <textarea id="del-addr" x-model="delivery.address" placeholder="Full delivery address" rows="2" class="form-input"></textarea>
+              <label for="daddr" class="form-label">Delivery Address <span class="req">*</span></label>
+              <textarea id="daddr" x-model="delivery.address" placeholder="Full delivery address" rows="2" class="form-input"></textarea>
             </div>
           </div>
-
-          <!-- Error -->
           <div x-show="checkoutError" x-transition class="form-error" role="alert">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
             <span x-text="checkoutError"></span>
           </div>
         </div>
       </div>
-
-      <!-- Footer -->
       <div x-show="cart.length > 0" class="cart-footer">
-        <button @click="orderViaWhatsApp()" class="wa-btn" aria-label="Send order via WhatsApp">
+        <button @click="orderViaWhatsApp()" class="wa-btn tap" aria-label="Send order via WhatsApp">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Order via WhatsApp &middot; <span x-text="formatPrice(cartTotal)"></span>
+          Place Order &middot; <span x-text="fmtPriceRupee(cartTotal)"></span>
         </button>
-        <button @click="closeCart()" class="add-more-btn" aria-label="Close cart and add more items">+ Add More Items</button>
+        <button @click="closeCart()" class="add-more-btn tap">+ Add More Items</button>
       </div>
     </div>
   </div>
 
   <!-- Noscript -->
   <noscript>
-    <style> body > *:not(noscript):not(.hero) { display: none; } </style>
+    <style>body > *:not(noscript):not(.hero){display:none}header{position:static}</style>
     <div style="max-width:32rem;margin:2rem auto;padding:1rem;text-align:center;color:#e8e6e3;font-family:system-ui">
-      <p style="padding:1rem;background:#222;border-radius:8px;">Please enable JavaScript to browse the menu and place orders.</p>
+      <p style="padding:1rem;background:#222;border-radius:8px">Please enable JavaScript to use the menu.</p>
     </div>
   </noscript>
 
   <script>
     function menuApp() {
       return {
-        restaurant: {},
-        categories: [],
-        loading: true,
-        logoError: false,
-        filter: 'all',
-        search: '',
-        activeCategory: 0,
-        showScrollTop: false,
-        cart: [],
-        cartOpen: false,
-        orderType: '',
-        checkoutError: '',
+        restaurant: {}, categories: [], loading: true, logoError: false,
+        filter: 'all', search: '', activeCategory: 0, showScrollTop: false,
+        cart: [], cartOpen: false,
+        orderType: '', checkoutError: '',
         dinein: { tableNumber: '' },
         delivery: { name: '', mobile: '', address: '' },
-        addingState: '',
-        addedState: '',
-        badgeBounce: false,
+        addingKey: '', addedKey: '',
+        toast: false, toastText: '', toastLeaving: false, toastTimer: null,
+        _observer: null,
 
         async init() {
           try {
             const res = await fetch('menu.json');
             const data = await res.json();
             this.restaurant = data.restaurant;
-            this.categories = data.categories;
+            // Add _loaded flag to each item for image skeleton
+            this.categories = data.categories.map(cat => ({
+              ...cat,
+              items: cat.items.map(item => ({ ...item, _loaded: !item.image }))
+            }));
             document.title = data.restaurant.name + ' \u2014 Digital Menu';
+            await new Promise(r => setTimeout(r, 500));
+          } catch (e) { console.error('Failed to load menu:', e); }
+          this.loading = false;
 
-            // Simulate minimum load time for skeleton to show (smoother UX)
-            await new Promise(r => setTimeout(r, 600));
-            this.loading = false;
-          } catch (e) {
-            console.error('Failed to load menu:', e);
-            this.loading = false;
-          }
-
-          // Scroll tracking for active category + scroll-to-top
+          // Scroll tracking
           let ticking = false;
           window.addEventListener('scroll', () => {
             if (!ticking) {
               requestAnimationFrame(() => {
                 this.updateActiveCategory();
-                this.showScrollTop = window.scrollY > 500;
+                this.showScrollTop = window.scrollY > 400;
                 ticking = false;
               });
               ticking = true;
             }
           });
+
+          // IntersectionObserver for scroll reveal
+          this._observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+              if (e.isIntersecting) { e.target.classList.add('visible'); this._observer.unobserve(e.target); }
+            });
+          }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         },
 
-        // -- Formatting --
-        formatPrice(amount) {
-          return '\u20B9' + amount.toLocaleString('en-IN');
-        },
+        observeReveal(el) { if (this._observer) this._observer.observe(el); },
 
-        getItemEmoji(item, catName) {
+        // Formatting
+        fmtPrice(n) { return n.toLocaleString('en-IN'); },
+        fmtPriceRupee(n) { return '\u20B9' + n.toLocaleString('en-IN'); },
+
+        getEmoji(item, catName) {
           const c = catName.toLowerCase();
           if (c.includes('starter')) return item.is_veg ? '\uD83E\uDD5E' : '\uD83C\uDF57';
-          if (c.includes('veg') && !c.includes('non')) return '\uD83E\uDD58';
-          if (c.includes('non veg') || c.includes('non-veg')) return '\uD83C\uDF56';
+          if (c.includes('non')) return '\uD83C\uDF56';
+          if (c.includes('veg')) return '\uD83E\uDD58';
           if (c.includes('rice') || c.includes('bread')) return '\uD83C\uDF5A';
           if (c.includes('beverage') || c.includes('dessert')) return '\uD83C\uDF79';
           return item.is_veg ? '\uD83C\uDF3F' : '\uD83C\uDF56';
         },
 
-        // -- Search --
-        onSearch() {
-          // Search resets filter to all
-          if (this.search.length > 0) this.filter = 'all';
-        },
+        // Search
+        onSearch() { if (this.search.length > 0) this.filter = 'all'; },
 
-        // -- Filtering --
+        // Filtering
         filteredItems(cat) {
           let items = cat.items;
           if (this.filter === 'veg') items = items.filter(i => i.is_veg);
           else if (this.filter === 'nonveg') items = items.filter(i => !i.is_veg);
-
           if (this.search.length > 0) {
             const q = this.search.toLowerCase();
-            items = items.filter(i =>
-              i.name.toLowerCase().includes(q) ||
-              (i.description && i.description.toLowerCase().includes(q))
-            );
+            items = items.filter(i => i.name.toLowerCase().includes(q) || (i.description && i.description.toLowerCase().includes(q)));
           }
           return items;
         },
 
         get totalFilteredItems() {
-          return this.categories.reduce((sum, cat) => sum + this.filteredItems(cat).length, 0);
+          return this.categories.reduce((s, c) => s + this.filteredItems(c).length, 0);
         },
 
         updateActiveCategory() {
-          const offset = 200;
           for (let i = this.categories.length - 1; i >= 0; i--) {
             const el = document.getElementById('cat-' + i);
-            if (el && el.getBoundingClientRect().top <= offset) {
-              this.activeCategory = i;
-              break;
-            }
+            if (el && el.getBoundingClientRect().top <= 200) { this.activeCategory = i; break; }
           }
         },
 
@@ -1081,137 +1077,97 @@
           this.activeCategory = idx;
           const el = document.getElementById('cat-' + idx);
           if (el) {
-            const top = el.getBoundingClientRect().top + window.scrollY - 180;
-            window.scrollTo({ top, behavior: 'smooth' });
+            window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 180, behavior: 'smooth' });
           }
+          // Auto-scroll tab into view
+          const tab = document.querySelector(`.cat-tab:nth-child(${idx + 1})`);
+          if (tab) tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         },
 
-        // -- Cart --
-        getCartItem(category, name) {
-          return this.cart.find(i => i.category === category && i.name === name);
-        },
+        // Cart
+        getCartItem(cat, name) { return this.cart.find(i => i.category === cat && i.name === name); },
 
-        addWithAnimation(category, item) {
-          const key = category + '-' + item.name;
-          this.addingState = key;
-
+        addWithAnim(cat, item) {
+          const key = cat + '-' + item.name;
+          this.addingKey = key;
           setTimeout(() => {
-            this.addedState = key;
-            this.addToCart(category, item);
-            this.triggerBadgeBounce();
-
-            setTimeout(() => {
-              this.addingState = '';
-              this.addedState = '';
-            }, 600);
-          }, 300);
+            this.addedKey = key;
+            this.addToCart(cat, item);
+            this.showToast(item.name + ' added');
+            setTimeout(() => { this.addingKey = ''; this.addedKey = ''; }, 500);
+          }, 250);
         },
 
-        addToCart(category, item) {
-          const existing = this.getCartItem(category, item.name);
-          if (existing) {
-            existing.qty++;
-          } else {
+        addToCart(cat, item) {
+          const existing = this.getCartItem(cat, item.name);
+          if (existing) { existing.qty++; }
+          else {
             this.cart.push({
-              category, name: item.name,
-              price: item.price, is_veg: item.is_veg, qty: 1
+              category: cat, name: item.name, price: item.price,
+              is_veg: item.is_veg, image: item.image || '', qty: 1
             });
           }
         },
 
-        incrementItem(category, name) {
-          const item = this.getCartItem(category, name);
-          if (item && item.qty < 99) {
-            item.qty++;
-            this.triggerBadgeBounce();
-          }
+        increment(cat, name) {
+          const item = this.getCartItem(cat, name);
+          if (item && item.qty < 99) item.qty++;
         },
 
-        decrementItem(category, name) {
-          const item = this.getCartItem(category, name);
-          if (item) {
-            item.qty--;
-            if (item.qty <= 0) {
-              this.cart = this.cart.filter(i => !(i.category === category && i.name === name));
-            }
-          }
+        decrement(cat, name) {
+          const item = this.getCartItem(cat, name);
+          if (item) { item.qty--; if (item.qty <= 0) this.cart = this.cart.filter(i => !(i.category === cat && i.name === name)); }
         },
 
-        triggerBadgeBounce() {
-          this.badgeBounce = false;
-          requestAnimationFrame(() => { this.badgeBounce = true; });
-          setTimeout(() => { this.badgeBounce = false; }, 400);
-        },
+        get cartCount() { return this.cart.reduce((s, i) => s + i.qty, 0); },
+        get cartTotal() { return this.cart.reduce((s, i) => s + i.price * i.qty, 0); },
 
-        get cartCount() {
-          return this.cart.reduce((sum, i) => sum + i.qty, 0);
-        },
-
-        get cartTotal() {
-          return this.cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-        },
-
-        openCart() {
-          this.cartOpen = true;
-          document.body.style.overflow = 'hidden';
-        },
-
-        closeCart() {
-          this.cartOpen = false;
-          document.body.style.overflow = '';
-        },
+        openCart() { this.cartOpen = true; document.body.style.overflow = 'hidden'; },
+        closeCart() { this.cartOpen = false; document.body.style.overflow = ''; },
 
         confirmClearCart() {
           if (confirm('Clear all items from your cart?')) {
-            this.cart = [];
-            this.orderType = '';
-            this.checkoutError = '';
+            this.cart = []; this.orderType = ''; this.checkoutError = '';
           }
         },
 
-        // -- Checkout --
+        // Toast
+        showToast(text) {
+          clearTimeout(this.toastTimer);
+          this.toast = false; this.toastLeaving = false;
+          requestAnimationFrame(() => {
+            this.toastText = text; this.toast = true;
+            this.toastTimer = setTimeout(() => {
+              this.toastLeaving = true;
+              setTimeout(() => { this.toast = false; this.toastLeaving = false; }, 300);
+            }, 1800);
+          });
+        },
+
+        // Checkout
         orderViaWhatsApp() {
           this.checkoutError = '';
-
-          if (!this.orderType) {
-            this.checkoutError = 'Please select an order type';
-            return;
-          }
-          if (this.orderType === 'dinein' && !this.dinein.tableNumber.trim()) {
-            this.checkoutError = 'Please enter your table number';
-            return;
-          }
+          if (!this.orderType) { this.checkoutError = 'Please select Dine-In or Delivery'; return; }
+          if (this.orderType === 'dinein' && !this.dinein.tableNumber.trim()) { this.checkoutError = 'Please enter your table number'; return; }
           if (this.orderType === 'delivery') {
-            if (!this.delivery.name.trim()) { this.checkoutError = 'Please enter your full name'; return; }
-            if (!this.delivery.mobile.trim()) { this.checkoutError = 'Please enter your mobile number'; return; }
-            if (!this.delivery.address.trim()) { this.checkoutError = 'Please enter your delivery address'; return; }
+            if (!this.delivery.name.trim()) { this.checkoutError = 'Please enter your name'; return; }
+            if (!this.delivery.mobile.trim()) { this.checkoutError = 'Please enter your mobile'; return; }
+            if (!this.delivery.address.trim()) { this.checkoutError = 'Please enter your address'; return; }
           }
 
-          let msg = `*${this.restaurant.name}*\n`;
-          msg += `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n`;
-
+          let msg = `*${this.restaurant.name}*\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n`;
           if (this.orderType === 'dinein') {
             msg += `\uD83C\uDF7D\uFE0F *Dine-In* | Table ${this.dinein.tableNumber}\n`;
           } else {
-            msg += `\uD83D\uDE97 *Home Delivery*\n`;
-            msg += `\uD83D\uDC64 ${this.delivery.name}\n`;
-            msg += `\uD83D\uDCF1 ${this.delivery.mobile}\n`;
-            msg += `\uD83D\uDCCD ${this.delivery.address}\n`;
+            msg += `\uD83D\uDE97 *Home Delivery*\n\uD83D\uDC64 ${this.delivery.name}\n\uD83D\uDCF1 ${this.delivery.mobile}\n\uD83D\uDCCD ${this.delivery.address}\n`;
           }
-
           msg += `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n`;
-
           this.cart.forEach(item => {
             const dot = item.is_veg ? '\uD83D\uDFE2' : '\uD83D\uDD34';
-            msg += `${dot} *${item.name}*\n`;
-            msg += `    ${item.qty} \u00D7 ${this.formatPrice(item.price)} = *${this.formatPrice(item.qty * item.price)}*\n\n`;
+            msg += `${dot} *${item.name}*\n    ${item.qty} \u00D7 ${this.fmtPriceRupee(item.price)} = *${this.fmtPriceRupee(item.qty * item.price)}*\n\n`;
           });
-
-          msg += `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n`;
-          msg += `\uD83D\uDCB0 *Grand Total: ${this.formatPrice(this.cartTotal)}*\n`;
-
-          const encoded = encodeURIComponent(msg);
-          window.open(`https://wa.me/${this.restaurant.phone}?text=${encoded}`, '_blank');
+          msg += `\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\uD83D\uDCB0 *Grand Total: ${this.fmtPriceRupee(this.cartTotal)}*\n`;
+          window.open(`https://wa.me/${this.restaurant.phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
       };
     }
