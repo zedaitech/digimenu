@@ -423,12 +423,12 @@
       font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums;
     }
 
-    /* Scroll reveal animation */
-    .reveal {
+    /* Scroll reveal animation — only when JS observer is active */
+    .reveal-ready .reveal {
       opacity: 0; transform: translateY(20px);
       transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-ready .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* Empty state */
     .empty-state { text-align: center; padding: 48px 16px; color: var(--text-muted); }
@@ -1028,7 +1028,16 @@
             entries.forEach(e => {
               if (e.isIntersecting) { e.target.classList.add('visible'); this._observer.unobserve(e.target); }
             });
-          }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+          }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+          // Enable reveal animations after observer is ready
+          this.$nextTick(() => {
+            const main = document.querySelector('.main');
+            if (main) main.classList.add('reveal-ready');
+            // Fallback: observe all reveal elements after render
+            setTimeout(() => {
+              document.querySelectorAll('.reveal:not(.visible)').forEach(el => this._observer.observe(el));
+            }, 100);
+          });
         },
 
         observeReveal(el) { if (this._observer) this._observer.observe(el); },
